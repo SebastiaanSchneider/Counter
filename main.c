@@ -8,7 +8,9 @@
 // tijd bijhouden
 // optimaliseren
 
-void character_counter(filename) {
+// ./main test2.txt
+
+void character_counter(char filename) {
 
     FILE* file = fopen(filename, "r");
 
@@ -34,6 +36,9 @@ void character_counter(filename) {
 
     // Close the file
     fclose(file);
+
+    // Print counter
+    printf("Count is %i", counter);
 
     // Print the character array
     // printf("%i", i);
