@@ -101,8 +101,7 @@ void counter()
         if (isspace(c))
         {
             continue;
-        }
-        else
+        } else
         {
             count++;
         }
