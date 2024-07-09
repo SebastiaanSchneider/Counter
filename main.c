@@ -79,16 +79,8 @@ void counter()
     // Character counter (result)
     int count = 0;
 
-    // char filename[MAX_FILE_NAME];
-
     // To store a character read from file
     char c;
-
-    // // Get file name from user.
-    // // The file should be either in current folder
-    // // or complete path should be provided
-    // printf("Enter file name: ");
-    // scanf("%s", filename);
 
     // char filename = "test2.txt";
     // Open the file
@@ -106,7 +98,14 @@ void counter()
     for (c = getc(fp); c != EOF; c = getc(fp))
 
         // Increment count for this character
-        count = count + 1;
+        if (isspace(c))
+        {
+            continue;
+        }
+        else
+        {
+            count++;
+        }
 
     // Close the file
     fclose(fp);
@@ -127,6 +126,6 @@ int main()
     t = clock() - t;
     double time_taken = ((double)t) / CLOCKS_PER_SEC; // in seconds
 
-    printf("fun() took %f seconds to execute \n", time_taken);
+    printf("counter() took %f seconds to execute \n", time_taken);
     return 0;
 }
