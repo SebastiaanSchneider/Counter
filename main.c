@@ -36,12 +36,8 @@ void counter(char *filename)
         // Extract characters from file
         // and store in character c
         for (c = getc(fp); c != EOF; c = getc(fp))
-
             // Increment count for this character
             if (isalpha(c))
-            {
-                continue;
-            } else
             {
                 count++;
             };
