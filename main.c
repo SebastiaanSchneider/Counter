@@ -11,62 +11,70 @@
 // gcc main.c
 // ./main test2.txt
 
-
-void counter(char *filename)
+void counter(FILE* file, char* filename)
 {
-    printf("second check: %s\n", filename);
-    FILE* fp;
+    printf("Second check: %s\n", filename);
 
     // Character counter (result)
-    int count = 0;
+    int alpha_count = 0;
+    int space_count = 0;
+    int punct_count = 0;
 
     // To store a character read from file
     char c;
 
-    // char filename[1024] = "test.txt";
-    // Open the file
-    fp = fopen(filename, "r");
+    // Extract characters from file and store in character c
+    for (c = getc(file); c != EOF; c = getc(file))
+        if (isalpha(c))
+        {
+            alpha_count++;
+        } else if (isspace(c))
+        {
+            space_count++;
+        } else
+        {
+            punct_count++;
+        };
 
-    // Check if file exists
-    if (fp == NULL)
-    {
-        printf("Could not open file %s\n", filename);
-    } else
-    {
-        // Extract characters from file
-        // and store in character c
-        for (c = getc(fp); c != EOF; c = getc(fp))
-            // Increment count for this character
-            if (isalpha(c))
-            {
-                count++;
-            };
-
-        // Close the file
-        fclose(fp);
-
-        // Print the count of characters
-        printf("The file %s has %d characters\n ", filename, count);
-    };
+    // Calculate total amount of characters in file
+    int total_characters = alpha_count + space_count + punct_count;
+    // Print the count of characters
+    printf("The file %s has %d characters: %d alphabetical, %d spaces and %d \
+punctuation marks.\n", filename, total_characters, alpha_count,
+            space_count, punct_count);
 }
 
 // The main program calls counter() and measures time taken by counter()
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    printf("first check: %s %s %s\n", argv[0], argv[1], "woord");
+    printf("First check: %s %s %s.\n", argv[0], argv[1], "woord");
     // Check if filename is given
-    if (argc == 1) {
-        printf("Error: No file argument given");
+    if (argc == 1)
+    {
+        printf("Error: No file argument given.");
         return 1;
-    } else {
-        // Calculate the time taken by counter()
-        clock_t t;
-        t = clock();
-        counter(argv[1]);
-        t = clock() - t;
-        double time_taken = ((double)t) / CLOCKS_PER_SEC; // in seconds
+    } else
+    {
+        char* filename = argv[1];
+        // pre-open file
+        FILE *file = fopen(filename, "r");
 
-        printf("counter() took %f seconds to execute \n", time_taken);
-        return 0;
+        // Check if file exists
+        if (file == NULL)
+        {
+            printf("Could not open file %s.\n", filename);
+        } else
+        {
+            // Calculate the time taken by counter()
+            clock_t t;
+            t = clock();
+            counter(file, filename);
+            t = clock() - t;
+            double time_taken = ((double)t) / CLOCKS_PER_SEC; // in seconds
+
+            fclose(file);
+            printf("Counter() took %f seconds to execute.\n", time_taken);
+            return 0;
+        };
     };
 }
