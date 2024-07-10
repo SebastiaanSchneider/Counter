@@ -8,73 +8,14 @@
 // tijd bijhouden
 // optimaliseren
 
+// gcc main.c
 // ./main test2.txt
 
-// void character_counter(char filename)
-// {
 
-//     FILE* file = fopen(filename, "r");
-
-//     // Print error if no usable file
-//     if (file == NULL) {
-//        printf("Error: could not open file %s", filename);
-//     };
-
-//     char buffer[1000]; // Initialize a char array named 'buffer' with size of 1000
-
-//     int counter;
-//     int i = 0, c; // c is the intermediate variable, i is the increment variable
-//     while ((c = fgetc(file)) != EOF) { // Read contents until it reach the end of the file
-//         buffer[i] = c;
-//         i++;
-//         if (isspace(c))
-//         {
-//             ;
-//         } else {
-//             counter++;
-//         }
-//     };
-
-//     // Close the file
-//     fclose(file);
-
-//     // Print counter
-//     printf("Count is %i", counter);
-
-//     // Print the character array
-//     // printf("%i", i);
-
-//     // Free the dynamically allocated buffer
-//     // free(buffer);
-// }
-
-// int main(int argc, char *argv[])
-// {
-//     // Check if filename is given
-//     if (argv[1] == NULL) {
-//         printf("Error: No file argument given");
-//         return 1;
-//     } else {
-//         // Get filename from input
-//         char filename = argv[1];
-
-//         // Calculate the time taken by character_counter()
-//         clock_t t;
-//         t = clock();
-//         character_counter(filename);
-//         t = clock() - t;
-//         double time_taken = ((double)t) / CLOCKS_PER_SEC; // in seconds
-
-//         printf("character_counter() took %i seconds to execute \n", time_taken);
-
-//         return 0;
-//     };
-// }
-
-
-void counter()
+void counter(char *filename)
 {
-    FILE *fp;
+    printf("second check: %s\n", filename);
+    FILE* fp;
 
     // Character counter (result)
     int count = 0;
@@ -82,49 +23,54 @@ void counter()
     // To store a character read from file
     char c;
 
-    // char filename = "test2.txt";
+    // char filename[1024] = "test.txt";
     // Open the file
-    fp = fopen("test.txt", "r");
+    fp = fopen(filename, "r");
 
     // Check if file exists
     if (fp == NULL)
     {
-        printf("Could not open file %s",
-               "test.txt");
-    }
+        printf("Could not open file %s\n", filename);
+    } else
+    {
+        // Extract characters from file
+        // and store in character c
+        for (c = getc(fp); c != EOF; c = getc(fp))
 
-    // Extract characters from file
-    // and store in character c
-    for (c = getc(fp); c != EOF; c = getc(fp))
+            // Increment count for this character
+            if (isalpha(c))
+            {
+                continue;
+            } else
+            {
+                count++;
+            };
 
-        // Increment count for this character
-        if (isspace(c))
-        {
-            continue;
-        } else
-        {
-            count++;
-        }
+        // Close the file
+        fclose(fp);
 
-    // Close the file
-    fclose(fp);
-
-    // Print the count of characters
-    printf("The file %s has %d characters\n ",
-           "test.txt", count);
+        // Print the count of characters
+        printf("The file %s has %d characters\n ", filename, count);
+    };
 }
 
-
-// The main program calls fun() and measures time taken by fun()
-int main()
+// The main program calls counter() and measures time taken by counter()
+int main(int argc, char *argv[])
 {
-    // Calculate the time taken by fun()
-    clock_t t;
-    t = clock();
-    counter();
-    t = clock() - t;
-    double time_taken = ((double)t) / CLOCKS_PER_SEC; // in seconds
+    printf("first check: %s %s %s\n", argv[0], argv[1], "woord");
+    // Check if filename is given
+    if (argc == 1) {
+        printf("Error: No file argument given");
+        return 1;
+    } else {
+        // Calculate the time taken by counter()
+        clock_t t;
+        t = clock();
+        counter(argv[1]);
+        t = clock() - t;
+        double time_taken = ((double)t) / CLOCKS_PER_SEC; // in seconds
 
-    printf("counter() took %f seconds to execute \n", time_taken);
-    return 0;
+        printf("counter() took %f seconds to execute \n", time_taken);
+        return 0;
+    };
 }
