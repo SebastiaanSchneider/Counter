@@ -15,14 +15,12 @@ void counter(FILE* file, char* filename)
 {
     printf("Second check: %s\n", filename);
 
-    // Character counter (result)
-    int alnum_count = 0;
-    int alpha_count = 0;
-    int upper_count = 0;
+    // Character counter (result)    
     int lower_count = 0;
-    int digit_count = 0;
     int space_count = 0;
     int punct_count = 0;
+    int upper_count = 0;
+    int digit_count = 0;
 
     // To store a character read from file
     char c;
@@ -30,33 +28,27 @@ void counter(FILE* file, char* filename)
     // Extract characters from file and store in character c
     for (c = getc(file); c != EOF; c = getc(file))
     {
-        if (isalnum(c))
+        if (islower(c))
         {
-            alnum_count++;
-            if (isalpha(c))
-            {
-                alpha_count++;
-                if (islower(c))
-                {
-                    lower_count++;
-                } else
-                {
-                    upper_count++;
-                };
-            } else
-            {
-                digit_count++;
-            };
+            lower_count++;
         } else if (isspace(c))
         {
             space_count++;
-        } else
+        } else if (ispunct(c))
         {
             punct_count++;
+        } else if (isupper(c))
+        {
+            upper_count++;
+        } else
+        {
+            digit_count++;
         };
     };
 
     // Calculate total amount of characters in file
+    int alpha_count = lower_count + upper_count;
+    int alnum_count = alpha_count + digit_count;
     int total_characters = alnum_count + space_count + punct_count;
     // Print the count of characters
     printf("The file %s has a total of %d characters: %d alphanumerical, of \
