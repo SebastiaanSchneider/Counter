@@ -21,6 +21,9 @@ void counter(FILE* file, char* filename)
     int punct_count = 0;
     int upper_count = 0;
     int digit_count = 0;
+    int other_count = 0;
+
+    int manual_all_count = 0;
 
     // To store a character read from file
     char c;
@@ -28,6 +31,7 @@ void counter(FILE* file, char* filename)
     // Extract characters from file and store in character c
     for (c = getc(file); c != EOF; c = getc(file))
     {
+        manual_all_count++;
         if (islower(c))
         {
             lower_count++;
@@ -40,9 +44,12 @@ void counter(FILE* file, char* filename)
         } else if (isupper(c))
         {
             upper_count++;
-        } else
+        } else if (isdigit(c))
         {
             digit_count++;
+        } else
+        {
+            other_count++;
         };
     };
 
@@ -50,12 +57,14 @@ void counter(FILE* file, char* filename)
     int alpha_count = lower_count + upper_count;
     int alnum_count = alpha_count + digit_count;
     int total_characters = alnum_count + space_count + punct_count;
+    int all_count = total_characters + other_count;
     // Print the count of characters
     printf("The file %s has a total of %d characters: %d alphanumerical, of \
 which %d alphabetical, of which %d upper case and %d lower case, and %d \
-numerical, %d spaces and %d punctuation marks.\n", filename, total_characters,
-alnum_count, alpha_count, upper_count, lower_count, digit_count, space_count,
-punct_count);
+numerical, %d spaces and %d punctuation marks.\nThere are also %d other \
+characters, for a total 'thing' count of %d. Manual all is %d.\n", filename,
+total_characters, alnum_count, alpha_count, upper_count, lower_count,
+digit_count, space_count, punct_count, other_count, all_count);
 }
 
 // The main program calls counter() and measures time taken by counter()
