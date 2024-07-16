@@ -50,6 +50,10 @@ void counter(FILE* file, char* filename)
         } else
         {
             other_count++;
+            // if (other_count % 10000 == 0)
+            // {
+            //     printf("other: %c\n", c);
+            // };
         };
     };
 
